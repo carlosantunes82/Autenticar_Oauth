@@ -11,16 +11,6 @@
         event.preventDefault();
     }
 
-    // var getIdClient = function () {
-    //     var urlString = window.location.href;
-    //     var url = new URL(urlString);
-    //     var id = url.searchParams.get("id");
-
-    //     getClient(id);
-
-    //     const endpoint = `http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/317700/RJ`
-    // }
-
     var getURLParameter = function (sParam) {
         var sPageURL = window.location.search.substring(1);
         var sURLVariables = sPageURL.split('&');
@@ -34,17 +24,19 @@
 
     var getClient = function () {
 
-        var idCliente = getURLParameter('idCliente'); // window.location.search.replace( /^\D+/g, '');
+        var idCliente = getURLParameter('idCliente');
 
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
+        // headers.append("Access-Control-Allow-Origin","*");
+        // headers.append('Access-Control-Allow-Methods', 'GET');
 
         const config = {
             method: "GET"
         };
 
         const endpoint = 'http://10.1.78.225:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente
-        console.log('endpoint --> ' + endpoint);
+        console.log('getDadosCadastraisCliente --> ' + endpoint);
 
         fetch(endpoint, Object.assign({
                 header: headers
