@@ -12,34 +12,6 @@
         event.preventDefault();
     }
 
-    // var validateForm = function () {
-    //     let erros = 0;
-    //     let data = {};
-
-    //     ui.fields.forEach(function (field) {
-
-    //         if (field.value.trim().length === 0) {
-    //             field.classList.add("error");
-    //             erros++;
-    //         } else {
-    //             field.classList.remove("error");
-    //             data[field.id] = field.value.trim();
-    //         };
-
-    //     })
-
-    //     console.log(erros, data);
-
-    //     if (erros === 0) {
-    //         addClient(data);
-    //     } else {
-    //         document.querySelector(".error").focus()
-    //     }
-    // }
-
-
-
-
     var getIdClient = function () {
         var urlString = window.location.href;
         var url = new URL(urlString);
@@ -59,7 +31,6 @@
             method: "GET"
         };
 
-        // const endpoint = "http://www.mocky.io/v2/5c252ab230000011007a62a4";
         const endpoint = `http://10.1.78.225:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=${idClient}`
 
         fetch(endpoint, Object.assign({
@@ -67,11 +38,8 @@
             }, config))
             .then(res => res.json())
             .then(getClientSucess)
-            // .then(validateForm)
             .catch(error => console.log(error));
-
     }
-
 
     var getClientSucess = function (client) {
 
@@ -147,31 +115,10 @@
 
             console.log(client)
 
-
-            // for (i = 0; i <= ui.fields.length; i++) {
-            //     if (ui.fields[i].value != '' && ui.fields[i].value != 'on') {
-            //         console.log("estou aqui com ", ui.fields[i].id)
-            //     }
-            // }
-
             const endpont = `http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClient&idCliente=${id}&nome=${client.nome}&cpf=${client.cpf}&dataNascimento=${client.dataNascimento}&sexo=${client.sexo}&tipoLogradouro=&endereco=${client.rua}&numero=${client.numero}&complemento=${client.complemento}&cep=${client.cep}&bairro=${client.bairro}&cidade=${client.cidade}&uf=${client.uf}&dddTelefone=${client.dddFixo}&telefone=${client.telefoneFixo}&dddCelular=${client.dddCelular}&celular=${client.celular}&email=${client.email}&medicoCrm=${client.medicoCrm}&medicoNome=${client.medicoNome}&medicoUf=${client.medicoUf}&contatoEmail=${client.checkEmail}&contatoCelular=${client.checkCelular}&contatoCorreio=${client.checkCorreio}&contatoPermissao=${client.checkAutorizacao}&cdProduto=${cdProduto}&precoBruto=${precoBruto}&precoLiquido=${precoLiquido}&isContatos=${isContatos}&nrSequenciaEndereco=${seqEnd}&nroCartao=${nrCartao}&tipoInclusao=${tipoIncl}`
 
         })
-
-
-        // fetch(endpoint, Object.assign({
-        //         header: headers
-        //     }, config))
-        //     .then(res => res.json())
-        //     .then(getClientSucess)
-        //     .catch(error => console.log(error));
-
-
-
     }
-
-    
-
 
     var init = function () {
         document.getElementById("checkCorreio").value = 0;
@@ -179,7 +126,6 @@
         document.getElementById("checkCelular").value = 0;
         document.getElementById("checkAutorizacao").value = 0;
 
-        // ui.buttons.addEventListener("click", validadeFields);
         getIdClient();
         postClient();
         searchCrm();
