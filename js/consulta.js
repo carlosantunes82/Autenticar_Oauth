@@ -6,23 +6,35 @@
 
     date = document.getElementById("dataNascimento")
     VMasker(date).maskPattern("99/99/9999");
-    
 
     var validadeFields = function (event) {
         event.preventDefault();
     }
 
-    var getIdClient = function () {
-        var urlString = window.location.href;
-        var url = new URL(urlString);
-        var id = url.searchParams.get("id");
+    // var getIdClient = function () {
+    //     var urlString = window.location.href;
+    //     var url = new URL(urlString);
+    //     var id = url.searchParams.get("id");
 
-        getClient(id);
+    //     getClient(id);
 
-        const endpoint = `http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/317700/RJ`
+    //     const endpoint = `http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/317700/RJ`
+    // }
+
+    var getURLParameter = function (sParam) {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) {
+                return sParameterName[1];
+            }
+        }
     }
 
-    var getClient = function (idClient) {
+    var getClient = function () {
+
+        var idCliente = getURLParameter('idCliente'); // window.location.search.replace( /^\D+/g, '');
 
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
@@ -31,7 +43,8 @@
             method: "GET"
         };
 
-        const endpoint = `http://10.1.78.225:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=${idClient}`
+        const endpoint = 'http://10.1.78.225:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente
+        console.log('endpoint --> ' + endpoint);
 
         fetch(endpoint, Object.assign({
                 header: headers
@@ -63,9 +76,6 @@
         }
 
     }
-    
-    
-
     var postClient = function () {
 
         ui.buttons.addEventListener("click", function (event) {
@@ -125,8 +135,7 @@
         document.getElementById("checkEmail").value = 0;
         document.getElementById("checkCelular").value = 0;
         document.getElementById("checkAutorizacao").value = 0;
-
-        getIdClient();
+        getClient();
         postClient();
         searchCrm();
     }();
