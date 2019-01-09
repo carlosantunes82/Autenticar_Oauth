@@ -4,6 +4,8 @@
         buttons: document.querySelector("button")
     };
 
+    var idCliente = 0;
+
     date = document.getElementById("dataNascimento")
     VMasker(date).maskPattern("99/99/9999");
 
@@ -24,12 +26,10 @@
 
     var getClient = function () {
 
-        var idCliente = getURLParameter('idCliente');
+        idCliente = getURLParameter('idCliente');
 
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
-        // headers.append("Access-Control-Allow-Origin","*");
-        // headers.append('Access-Control-Allow-Methods', 'GET');
 
         const config = {
             method: "GET"
@@ -70,6 +70,17 @@
     }
     var postClient = function () {
 
+        // TODO request.setAttribute("habilitaIntegracaoSevenPdv", habilitaIntegracaoSevenPdv);
+        // TODO request.setAttribute("habilitaIntegracaoFuncional", habilitaIntegracaoFuncional);
+        var cdProduto = getURLParameter('cdEan');
+        var precoBruto = getURLParameter('precoBruto');
+        var precoLiquido = getURLParameter('precoLiquido');
+        var nroCartao = getURLParameter('nroCartao');
+        var tipoInclusao = getURLParameter('tipoInclusao');
+        var cdEmpresaPbm = getURLParameter('cdEmpresaPbm');
+        var cadastroUnico = getURLParameter('cadastroUnico');
+        var isContatos = getURLParameter('isContatos');
+        
         ui.buttons.addEventListener("click", function (event) {
             event.preventDefault();
 
@@ -117,9 +128,36 @@
 
             console.log(client)
 
-            const endpont = `http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClient&idCliente=${id}&nome=${client.nome}&cpf=${client.cpf}&dataNascimento=${client.dataNascimento}&sexo=${client.sexo}&tipoLogradouro=&endereco=${client.rua}&numero=${client.numero}&complemento=${client.complemento}&cep=${client.cep}&bairro=${client.bairro}&cidade=${client.cidade}&uf=${client.uf}&dddTelefone=${client.dddFixo}&telefone=${client.telefoneFixo}&dddCelular=${client.dddCelular}&celular=${client.celular}&email=${client.email}&medicoCrm=${client.medicoCrm}&medicoNome=${client.medicoNome}&medicoUf=${client.medicoUf}&contatoEmail=${client.checkEmail}&contatoCelular=${client.checkCelular}&contatoCorreio=${client.checkCorreio}&contatoPermissao=${client.checkAutorizacao}&cdProduto=${cdProduto}&precoBruto=${precoBruto}&precoLiquido=${precoLiquido}&isContatos=${isContatos}&nrSequenciaEndereco=${seqEnd}&nroCartao=${nrCartao}&tipoInclusao=${tipoIncl}`
+            // TODO nrSequenciaEndereco fixo 1
 
-        })
+            const endpoint = 'http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClient'
+                           + '&idCliente='+idCliente+'&nome='+client.nome+'&cpf='+client.cpf+'&dataNascimento='+client.dataNascimento
+                           + '&sexo='+client.sexo+'&tipoLogradouro=&endereco='+client.rua+'&numero=' + client.numero
+                           + '&complemento='+client.complemento+'&cep='+client.cep+'&bairro='+client.bairro+'&cidade=' + client.cidade
+                           + '&uf='+client.uf+'&dddTelefone='+client.dddFixo+'&telefone=' + client.telefoneFixo
+                           + '&dddCelular='+client.dddCelular+'&celular='+client.celular+'&email=' + client.email
+                           + '&medicoCrm='+client.medicoCrm+'&medicoNome='+client.medicoNome+'&medicoUf=' + client.medicoUf
+                           + '&contatoEmail='+client.checkEmail+'&contatoCelular=' + client.checkCelular
+                           + '&contatoCorreio='+client.checkCorreio+'&contatoPermissao='+client.checkAutorizacao+'&cdProduto=' + cdProduto
+                           + '&precoBruto='+precoBruto+'&precoLiquido='+precoLiquido+'&isContatos='+isContatos+'&nrSequenciaEndereco=' + 1
+                           + '&nroCartao='+nroCartao+'&tipoInclusao=' + tipoInclusao;
+
+            console.log('gravarClient --> ' + endpoint);
+            
+            const headers = new Headers();
+            headers.append("Content-Type", "application/json");
+
+            const config = {
+                method: "POST"
+            };
+
+            fetch(endpoint, Object.assign({
+                    header: headers
+                }, config))
+                .then(res => res.json())
+                .then(getClientSucess)
+                .catch(error => console.log(error));
+             })
     }
 
     var init = function () {
