@@ -70,8 +70,6 @@
     }
     var postClient = function () {
 
-        // TODO request.setAttribute("habilitaIntegracaoSevenPdv", habilitaIntegracaoSevenPdv);
-        // TODO request.setAttribute("habilitaIntegracaoFuncional", habilitaIntegracaoFuncional);
         var cdProduto = getURLParameter('cdEan');
         var precoBruto = getURLParameter('precoBruto');
         var precoLiquido = getURLParameter('precoLiquido');
@@ -79,7 +77,6 @@
         var tipoInclusao = getURLParameter('tipoInclusao');
         var cdEmpresaPbm = getURLParameter('cdEmpresaPbm');
         var cadastroUnico = getURLParameter('cadastroUnico');
-        var isContatos = getURLParameter('isContatos');
         
         ui.buttons.addEventListener("click", function (event) {
             event.preventDefault();
@@ -139,8 +136,7 @@
                            + '&medicoCrm='+client.medicoCrm+'&medicoNome='+client.medicoNome+'&medicoUf=' + client.medicoUf
                            + '&contatoEmail='+client.checkEmail+'&contatoCelular=' + client.checkCelular
                            + '&contatoCorreio='+client.checkCorreio+'&contatoPermissao='+client.checkAutorizacao+'&cdProduto=' + cdProduto
-                           + '&precoBruto='+precoBruto+'&precoLiquido='+precoLiquido+'&isContatos='+isContatos+'&nrSequenciaEndereco=' + 1
-                           + '&nroCartao='+nroCartao+'&tipoInclusao=' + tipoInclusao;
+                           + '&precoBruto='+precoBruto+'&precoLiquido='+precoLiquido+'&isContatos='+client.isContatos+'&nrSequenciaEndereco=' + client.sequencia;
 
             console.log('gravarClient --> ' + endpoint);
             
@@ -202,5 +198,6 @@ function getDoctor(doctorCrm, doctorUf) {
 }
 
 function getDoctorSucess(doctor) {
-    document.getElementById("medicoNome").value = doctor[0].nmProfissional
+    document.getElementById("medicoNome").value = doctor[0].nmProfissional;
+    document.getElementById("medicoUf").value = document.getElementById("medicoUfSelect").value;
 }
