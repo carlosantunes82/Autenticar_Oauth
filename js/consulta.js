@@ -35,6 +35,7 @@
             method: "GET"
         };
 
+        // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente
         const endpoint = 'http://10.1.78.225:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente
         console.log('getDadosCadastraisCliente --> ' + endpoint);
 
@@ -73,10 +74,10 @@
         var cdProduto = getURLParameter('cdEan');
         var precoBruto = getURLParameter('precoBruto');
         var precoLiquido = getURLParameter('precoLiquido');
-        var nroCartao = getURLParameter('nroCartao');
-        var tipoInclusao = getURLParameter('tipoInclusao');
-        var cdEmpresaPbm = getURLParameter('cdEmpresaPbm');
-        var cadastroUnico = getURLParameter('cadastroUnico');
+        // var nroCartao = getURLParameter('nroCartao'); TODO Checar se necessario
+        // var tipoInclusao = getURLParameter('tipoInclusao'); TODO Checar se necessario
+        // var cdEmpresaPbm = getURLParameter('cdEmpresaPbm'); TODO Checar se necessario
+        // var cadastroUnico = getURLParameter('cadastroUnico'); TODO Checar se necessario
         
         ui.buttons.addEventListener("click", function (event) {
             event.preventDefault();
@@ -125,8 +126,7 @@
 
             console.log(client)
 
-            // TODO nrSequenciaEndereco fixo 1
-
+            // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil
             const endpoint = 'http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil'
                            + '&idCliente='+idCliente+'&nome='+client.nome+'&cpf='+client.cpf+'&dataNascimento='+client.dataNascimento
                            + '&sexo='+client.sexo+'&tipoLogradouro=&endereco='+client.rua+'&numero=' + client.numero
@@ -151,8 +151,8 @@
                     header: headers
                 }, config))
                 .then(res => res.json())
-                .then(getClientSucess)
-                .catch(error => console.log(error));
+                .then(clientePostSuccess())
+                .catch(error => clientePostError(error));
              })
     }
 
@@ -168,6 +168,16 @@
 
 
 })();
+
+function clientePostError(error) {
+    console.log(error);
+    alert('Ocorreu um erro no cadastro do Cliente');
+}
+
+function clientePostSuccess() {
+    alert('Cliente cadastrado com sucesso !');
+    window.close();
+}
 
 function searchCrm(crm) {
 
@@ -187,6 +197,7 @@ function getDoctor(doctorCrm, doctorUf) {
         method: "GET"
     };
 
+    // TODO Parametrizar endpoint terminalconsulta-servicos
     const endpoint = `http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/${doctorCrm}/${doctorUf}`;
 
     fetch(endpoint, Object.assign({
