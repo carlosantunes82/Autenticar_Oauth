@@ -152,7 +152,7 @@
                 }, config))
                 .then(res => res.json())
                 .then(clientePostSuccess())
-                .catch(error => clientePostError(error));
+                .catch(error => console.log(error));
              })
     }
 
@@ -168,11 +168,6 @@
 
 
 })();
-
-function clientePostError(error) {
-    console.log(error);
-    alert('Ocorreu um erro no cadastro do Cliente');
-}
 
 function clientePostSuccess() {
     alert('Cliente cadastrado com sucesso !');
