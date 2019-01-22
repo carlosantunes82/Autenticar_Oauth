@@ -11,7 +11,8 @@
     "heroku"
   ],
   "dependencies": {
-    "express": "^4.9.8"
+    "express": "^4.9.8",
+    "http-server":"0.11.1"
   },
   "engines": {
     "node": ">=0.10.0"
