@@ -28,6 +28,34 @@
 
         idCliente = getURLParameter('idCliente');
 
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        var config = {
+            method: "GET"
+        };
+
+        // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente
+        var endpoint = 'http://10.1.55.109:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente
+
+        fetch(endpoint, Object.assign({header: headers}, config))
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(client) {
+
+                setClientDados(client);
+
+
+            })
+            .catch(error => console.log(error));
+
+
+    }
+    /*var getClient = function () {
+
+        idCliente = getURLParameter('idCliente');
+
         const headers = new Headers();
         headers.append("Content-Type", "application/json");
 
@@ -45,9 +73,9 @@
             .then(res => res.json())
             .then(getClientSucess)
             .catch(error => console.log(error));
-    }
+    }*/
 
-    var getClientSucess = function (client) {
+    /*var getClientSucess = function (client) {
 
         Object.keys(client).map((key) => {
             document.getElementById(`${key}`).value = client[`${key}`]
@@ -68,17 +96,13 @@
             document.getElementById("sexoFeminino").checked = true;
         }
 
-    }
+    }*/
     var postClient = function () {
 
         var cdProduto = getURLParameter('cdEan');
         var precoBruto = getURLParameter('precoBruto');
         var precoLiquido = getURLParameter('precoLiquido');
-        // var nroCartao = getURLParameter('nroCartao'); TODO Checar se necessario
-        // var tipoInclusao = getURLParameter('tipoInclusao'); TODO Checar se necessario
-        // var cdEmpresaPbm = getURLParameter('cdEmpresaPbm'); TODO Checar se necessario
-        // var cadastroUnico = getURLParameter('cadastroUnico'); TODO Checar se necessario
-        
+
         ui.buttons.addEventListener("click", function (event) {
             event.preventDefault();
 
@@ -206,4 +230,33 @@ function getDoctor(doctorCrm, doctorUf) {
 function getDoctorSucess(doctor) {
     document.getElementById("medicoNome").value = doctor[0].nmProfissional;
     document.getElementById("medicoUf").value = document.getElementById("medicoUfSelect").value;
+}
+
+function setClientDados(client) {
+    document.getElementById("sequencia").value = client.sequencia;
+    document.getElementById("isContatos").value = client.isContatos;
+    document.getElementById("nome").value = client.nome;
+    document.getElementById("cpf").value = client.cpf;
+    document.getElementById("dataNascimento").value = client.dataNascimento;
+    document.getElementById("sexo").value = ''
+    if (client.sexo === "M") {
+        document.getElementById("sexoMasculino").checked = true;
+    }
+    if (client.sexo === "F") {
+        document.getElementById("sexoFeminino").checked = true;
+    }
+    document.getElementById("dddFixo").value = client.dddFixo;
+    document.getElementById("telefoneFixo").value = client.telefoneFixo;
+    document.getElementById("dddCelular").value = client.dddCelular;
+    document.getElementById("celular").value = client.celular;
+    document.getElementById("email").value = client.email;
+    document.getElementById("rua").value = client.rua;
+    document.getElementById("complemento").value = client.complemento;
+    document.getElementById("bairro").value = client.bairro;
+    document.getElementById("cidade").value = client.cidade;
+    document.getElementById("numero").value = client.numero;
+    document.getElementById("cep").value = client.cep;
+    if (client.uf == null || client.uf == '') {
+        document.getElementById("uf").value = '';
+    }
 }
