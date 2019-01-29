@@ -36,7 +36,7 @@
         };
 
         // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente
-        var endpoint = 'http://10.1.55.109:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente
+        var endpoint = 'http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente
 
         fetch(endpoint, Object.assign({header: headers}, config))
             .then(function(response) {
@@ -92,47 +92,45 @@
             ui.fields.forEach(function(item, index){
 
                 client[item.id] = item.value
-                
+
             })
-
-            if (document.getElementById("sexoMasculino").checked == true)
-                client.sexo = "M"
-                delete client.sexoFeminino
-
-            if (document.getElementById("sexoFeminino").checked == true)
-                client.sexo = "F"
-                delete client.sexoMasculino
 
             console.log(client)
 
             // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil
-            const endpoint = 'http://10.1.55.109:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil'
-                           + '&idCliente='+idCliente+'&nome='+client.nome+'&cpf='+client.cpf+'&dataNascimento='+client.dataNascimento
-                           + '&sexo='+client.sexo+'&tipoLogradouro=&endereco='+client.rua+'&numero=' + client.numero
-                           + '&complemento='+client.complemento+'&cep='+client.cep+'&bairro='+client.bairro+'&cidade=' + client.cidade
-                           + '&uf='+client.uf+'&dddTelefone='+client.dddFixo+'&telefone=' + client.telefoneFixo
-                           + '&dddCelular='+client.dddCelular+'&celular='+client.celular+'&email=' + client.email
-                           + '&medicoCrm='+client.medicoCrm+'&medicoNome='+client.medicoNome+'&medicoUf=' + client.medicoUf
-                           + '&contatoEmail='+client.checkEmail+'&contatoCelular=' + client.checkCelular
-                           + '&contatoCorreio='+client.checkCorreio+'&contatoPermissao='+client.checkAutorizacao+'&cdProduto=' + cdProduto
-                           + '&precoBruto='+precoBruto+'&precoLiquido='+precoLiquido+'&isContatos='+client.isContatos+'&nrSequenciaEndereco=' + client.sequencia;
+            var endpoint = 'http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil'
+                + '&idCliente='+idCliente+'&nome='+client.nome+'&cpf='+client.cpf+'&dataNascimento='+client.dataNascimento
+                + '&sexo='+client.sexo+'&tipoLogradouro=&endereco='+client.rua+'&numero=' + client.numero
+                + '&complemento='+client.complemento+'&cep='+client.cep+'&bairro='+client.bairro+'&cidade=' + client.cidade
+                + '&uf='+client.uf+'&dddTelefone='+client.dddFixo+'&telefone=' + client.telefoneFixo
+                + '&dddCelular='+client.dddCelular+'&celular='+client.celular+'&email=' + client.email
+                + '&medicoCrm='+client.medicoCrm+'&medicoNome='+client.medicoNome+'&medicoUf=' + client.medicoUf
+                + '&contatoEmail='+client.checkEmail+'&contatoCelular=' + client.checkCelular
+                + '&contatoCorreio='+client.checkCorreio+'&contatoPermissao='+client.checkAutorizacao+'&cdProduto=' + cdProduto
+                + '&precoBruto='+precoBruto+'&precoLiquido='+precoLiquido+'&isContatos='+client.isContatos+'&nrSequenciaEndereco=' + client.sequencia;
 
-            console.log('gravarClient --> ' + endpoint);
-            
-            const headers = new Headers();
-            headers.append("Content-Type", "application/json");
+            console.log('endpoint --> ' + endpoint);
 
-            const config = {
+            var headers = new Headers();
+            headers.append("Content-Type", "text/html");
+
+            var config = {
                 method: "POST"
             };
 
-            fetch(endpoint, Object.assign({
-                    header: headers
-                }, config))
-                .then(res => res.json())
-                .then(clientePostSuccess())
-                .catch(error => console.log(error));
-             })
+            fetch(endpoint, Object.assign({header: headers}, config))
+                .then(function(response) {
+                    return response;
+                })
+                .then(function(client) {
+                    alert('Cliente cadastrado com sucesso !');
+                    window.close()
+
+                })
+                .catch(function(error) {
+                    console.log('Ocorreu um erro ao realizar o cadastro do cliente [acao=gravarClientRaiaDrogasil - idCliente='+idCliente+'] ' + error);
+                });
+        })
     }
 
     var init = function () {
@@ -148,11 +146,6 @@
 
 })();
 
-function clientePostSuccess() {
-    alert('Cliente cadastrado com sucesso !');
-    window.close();
-}
-
 function searchCrm(crm) {
 
     var doctorCrm = document.getElementById("medicoCrm").value;
@@ -164,19 +157,19 @@ function searchCrm(crm) {
 
 function getDoctor(doctorCrm, doctorUf) {
 
-    const headers = new Headers();
+    var headers = new Headers();
     headers.append("Content-Type", "application/json");
 
-    const config = {
+    var config = {
         method: "GET"
     };
 
     // TODO Parametrizar endpoint terminalconsulta-servicos
-    const endpoint = `http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/${doctorCrm}/${doctorUf}`;
+    var endpoint = `http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/${doctorCrm}/${doctorUf}`;
 
     fetch(endpoint, Object.assign({
-            header: headers
-        }, config))
+        header: headers
+    }, config))
         .then(res => res.json())
         .then(getDoctorSucess)
         .catch(error => console.log(error));
