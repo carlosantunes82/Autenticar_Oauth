@@ -24,7 +24,7 @@
         }
     }
 
-    var getClient = function () {
+    var getCliente = function () {
 
         idCliente = getURLParameter('idCliente');
 
@@ -52,7 +52,7 @@
 
     }
 
-    var postClient = function () {
+    var postCliente = function () {
 
         var cdProduto = getURLParameter('cdEan');
         var precoBruto = getURLParameter('precoBruto');
@@ -60,8 +60,6 @@
 
         ui.buttons.addEventListener("click", function (event) {
             event.preventDefault();
-
-            console.log(event)
 
             if (document.getElementById("checkCorreio").checked == true) {
                 document.getElementById("checkCorreio").value = 1
@@ -91,11 +89,21 @@
 
             ui.fields.forEach(function(item, index){
 
-                client[item.id] = item.value
+                client[item.id] = item.value;
 
             })
 
-            console.log(client)
+            if (document.getElementById("sexoMasculino").checked == true) {
+                client.sexo = "M";
+                // TODO delete client.sexoFeminino
+            }
+
+            if (document.getElementById("sexoFeminino").checked == true) {
+                client.sexo = "F";
+                // TODO delete client.sexoMasculino
+            }
+
+            console.log(client);
 
             // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil
             var endpoint = 'http://10.1.55.90:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil'
@@ -138,8 +146,8 @@
         document.getElementById("checkEmail").value = 0;
         document.getElementById("checkCelular").value = 0;
         document.getElementById("checkAutorizacao").value = 0;
-        getClient();
-        postClient();
+        getCliente();
+        postCliente();
         searchCrm();
     }();
 
@@ -151,11 +159,11 @@ function searchCrm(crm) {
     var doctorCrm = document.getElementById("medicoCrm").value;
     var doctorUf = crm.value;
 
-    getDoctor(doctorCrm, doctorUf)
+    getMedico(doctorCrm, doctorUf)
 
 };
 
-function getDoctor(doctorCrm, doctorUf) {
+function getMedico(medicoCrm, medicorUf) {
 
     var headers = new Headers();
     headers.append("Content-Type", "application/json");
@@ -165,7 +173,7 @@ function getDoctor(doctorCrm, doctorUf) {
     };
 
     // TODO Parametrizar endpoint terminalconsulta-servicos
-    var endpoint = 'http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/'+doctorCrm+'/'+doctorUf;
+    var endpoint = 'http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/'+medicoCrm+'/'+medicorUf;
 
     fetch(endpoint, Object.assign({header: headers}, config))
         .then(function(response) {
