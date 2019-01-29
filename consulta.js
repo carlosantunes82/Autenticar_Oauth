@@ -43,60 +43,15 @@
                 return response.json();
             })
             .then(function(client) {
-
                 setClientDados(client);
 
-
             })
-            .catch(error => console.log(error));
-
+            .catch(function(error) {
+                console.log('Ocorreu um erro ao buscar informacoes do cliente [acao=getDadosCadastraisCliente&idCliente='+idCliente+'] ' + error);
+            });
 
     }
-    /*var getClient = function () {
 
-        idCliente = getURLParameter('idCliente');
-
-        const headers = new Headers();
-        headers.append("Content-Type", "application/json");
-
-        const config = {
-            method: "GET"
-        };
-
-        // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente
-        const endpoint = 'http://10.1.55.109:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente
-        console.log('getDadosCadastraisCliente --> ' + endpoint);
-
-        fetch(endpoint, Object.assign({
-                header: headers
-            }, config))
-            .then(res => res.json())
-            .then(getClientSucess)
-            .catch(error => console.log(error));
-    }*/
-
-    /*var getClientSucess = function (client) {
-
-        Object.keys(client).map((key) => {
-            document.getElementById(`${key}`).value = client[`${key}`]
-
-            if (client[`${key}`] == "null") {
-                document.getElementById(`${key}`).value = ""
-            }
-
-        });
-
-        document.getElementById("sexo").value = ''
-
-        if (client.sexo === "M") {
-            document.getElementById("sexoMasculino").checked = true;
-        }
-
-        if (client.sexo === "F") {
-            document.getElementById("sexoFeminino").checked = true;
-        }
-
-    }*/
     var postClient = function () {
 
         var cdProduto = getURLParameter('cdEan');
