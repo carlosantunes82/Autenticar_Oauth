@@ -36,14 +36,14 @@
         };
 
         // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente
-        var endpoint = 'http://10.1.55.90:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente
+        var endpoint = 'http://10.1.55.90:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente;
 
         fetch(endpoint, Object.assign({header: headers}, config))
             .then(function(response) {
                 return response.json();
             })
             .then(function(client) {
-                setClientDados(client);
+                setDadosCliente(client);
 
             })
             .catch(function(error) {
@@ -124,7 +124,7 @@
                 })
                 .then(function(client) {
                     alert('Cliente cadastrado com sucesso !');
-                    window.close()
+                    window.close();
 
                 })
                 .catch(function(error) {
@@ -165,46 +165,51 @@ function getDoctor(doctorCrm, doctorUf) {
     };
 
     // TODO Parametrizar endpoint terminalconsulta-servicos
-    var endpoint = `http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/${doctorCrm}/${doctorUf}`;
+    var endpoint = 'http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/'+doctorCrm+'/'+doctorUf;
 
-    fetch(endpoint, Object.assign({
-        header: headers
-    }, config))
-        .then(res => res.json())
-        .then(getDoctorSucess)
-        .catch(error => console.log(error));
+    fetch(endpoint, Object.assign({header: headers}, config))
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(medico) {
+            setDadosMedico(medico);
+
+        })
+        .catch(function(error) {
+            console.log('Ocorreu um erro ao buscar o médico[endpoint='+endpoint+'] ' + error);
+        });
 }
 
-function getDoctorSucess(doctor) {
-    document.getElementById("medicoNome").value = doctor[0].nmProfissional;
+function setDadosMedico(medico) {
+    document.getElementById("medicoNome").value = medico[0].nmProfissional;
     document.getElementById("medicoUf").value = document.getElementById("medicoUfSelect").value;
 }
 
-function setClientDados(client) {
-    document.getElementById("sequencia").value = client.sequencia;
-    document.getElementById("isContatos").value = client.isContatos;
-    document.getElementById("nome").value = client.nome;
-    document.getElementById("cpf").value = client.cpf;
-    document.getElementById("dataNascimento").value = client.dataNascimento;
+function setDadosCliente(cliente) {
+    document.getElementById("sequencia").value = cliente.sequencia;
+    document.getElementById("isContatos").value = cliente.isContatos;
+    document.getElementById("nome").value = cliente.nome;
+    document.getElementById("cpf").value = cliente.cpf;
+    document.getElementById("dataNascimento").value = cliente.dataNascimento;
     document.getElementById("sexo").value = ''
-    if (client.sexo === "M") {
+    if (cliente.sexo === "M") {
         document.getElementById("sexoMasculino").checked = true;
     }
-    if (client.sexo === "F") {
+    if (cliente.sexo === "F") {
         document.getElementById("sexoFeminino").checked = true;
     }
-    document.getElementById("dddFixo").value = client.dddFixo;
-    document.getElementById("telefoneFixo").value = client.telefoneFixo;
-    document.getElementById("dddCelular").value = client.dddCelular;
-    document.getElementById("celular").value = client.celular;
-    document.getElementById("email").value = client.email;
-    document.getElementById("rua").value = client.rua;
-    document.getElementById("complemento").value = client.complemento;
-    document.getElementById("bairro").value = client.bairro;
-    document.getElementById("cidade").value = client.cidade;
-    document.getElementById("numero").value = client.numero;
-    document.getElementById("cep").value = client.cep;
-    if (client.uf == null || client.uf == '') {
+    document.getElementById("dddFixo").value = cliente.dddFixo;
+    document.getElementById("telefoneFixo").value = cliente.telefoneFixo;
+    document.getElementById("dddCelular").value = cliente.dddCelular;
+    document.getElementById("celular").value = cliente.celular;
+    document.getElementById("email").value = cliente.email;
+    document.getElementById("rua").value = cliente.rua;
+    document.getElementById("complemento").value = cliente.complemento;
+    document.getElementById("bairro").value = cliente.bairro;
+    document.getElementById("cidade").value = cliente.cidade;
+    document.getElementById("numero").value = cliente.numero;
+    document.getElementById("cep").value = cliente.cep;
+    if (cliente.uf == null || cliente.uf == '') {
         document.getElementById("uf").value = '';
     }
 }
