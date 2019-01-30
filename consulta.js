@@ -86,11 +86,10 @@
 
             var client = {}
 
-            ui.fields.forEach(function(item, index){
-
+            for (var n = 0; n < ui.fields.length; n++) {
+                var item = ui.fields[n];
                 client[item.id] = item.value;
-
-            })
+            }
 
             if (document.getElementById("sexoMasculino").checked == true) {
                 client.sexo = "M";
