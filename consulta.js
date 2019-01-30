@@ -29,7 +29,7 @@
         idCliente = getURLParameter('idCliente');
 
         // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente
-        var endpoint = 'http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente;
+        var endpoint = 'http://10.1.55.90:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente;
 
         $.ajax({
             type: 'GET',
@@ -105,7 +105,7 @@
             console.log(client);
 
             // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil
-            var endpoint = 'http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil'
+            var endpoint = 'http://10.1.55.90:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil'
                 + '&idCliente='+idCliente+'&nome='+client.nome+'&cpf='+client.cpf+'&dataNascimento='+client.dataNascimento
                 + '&sexo='+client.sexo+'&tipoLogradouro=&endereco='+client.rua+'&numero=' + client.numero
                 + '&complemento='+client.complemento+'&cep='+client.cep+'&bairro='+client.bairro+'&cidade=' + client.cidade
@@ -161,24 +161,26 @@ function searchCrm(crm) {
 
 function getMedico(medicoCrm, medicorUf) {
 
-    var config = {
-        method: "GET"
-    };
-
     // TODO Parametrizar endpoint terminalconsulta-servicos
     var endpoint = 'http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/'+medicoCrm+'/'+medicorUf;
 
-    fetch(endpoint, Object.assign(config))
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(medico) {
-            setDadosMedico(medico);
-
-        })
-        .catch(function(error) {
-            console.log('Ocorreu um erro ao buscar o médico[endpoint='+endpoint+'] ' + error);
-        });
+    $.ajax({
+        type: 'GET',
+        async: false,
+        cache: false,
+        timeout: 5000,
+        dataType: "json",
+        url: endpoint,
+        success: function (data) {
+            retorno = data;
+            console.log(retorno);
+            setDadosMedico(retorno);
+        },error: function (jqXHR, exception) {
+            console.log(jqXHR + '  -  ' + exception);
+            var msg = 'Ocorreu um erro ao buscar o médico[endpoint='+endpoint+'] ';
+            console.log(msg);
+        }
+    });
 }
 
 function setDadosMedico(medico) {
