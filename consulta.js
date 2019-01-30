@@ -28,27 +28,26 @@
 
         idCliente = getURLParameter('idCliente');
 
-        var headers = new Headers();
-        headers.append("Content-Type", "application/json");
-
-        var config = {
-            method: "GET"
-        };
-
         // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente
-        var endpoint = 'http://10.1.55.90:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente;
+        var endpoint = 'http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=getDadosCadastraisCliente&idCliente=' + idCliente;
 
-        fetch(endpoint, Object.assign({header: headers}, config))
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(client) {
-                setDadosCliente(client);
-
-            })
-            .catch(function(error) {
-                console.log('Ocorreu um erro ao buscar informacoes do cliente [acao=getDadosCadastraisCliente&idCliente='+idCliente+'] ' + error);
-            });
+        $.ajax({
+            type: 'GET',
+            async: false,
+            cache: false,
+            timeout: 5000,
+            dataType: "json",
+            url: endpoint,
+            success: function (data) {
+                retorno = data;
+                console.log(retorno);
+                setDadosCliente(retorno);
+            },error: function (jqXHR, exception) {
+                console.log(jqXHR + '  -  ' + exception);
+                var msg = 'Ocorreu um erro ao buscar informacoes do cliente [acao=getDadosCadastraisCliente&idCliente='+idCliente+'] ';
+                console.log(msg);
+            }
+        });
 
     }
 
@@ -106,7 +105,7 @@
             console.log(client);
 
             // TODO Parametrizar endpoint ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil
-            var endpoint = 'http://10.1.55.90:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil'
+            var endpoint = 'http://localhost:8080/tc-core-portlets_1.0/ValidarDadosClientePbmrServlet?acao=gravarClientRaiaDrogasil'
                 + '&idCliente='+idCliente+'&nome='+client.nome+'&cpf='+client.cpf+'&dataNascimento='+client.dataNascimento
                 + '&sexo='+client.sexo+'&tipoLogradouro=&endereco='+client.rua+'&numero=' + client.numero
                 + '&complemento='+client.complemento+'&cep='+client.cep+'&bairro='+client.bairro+'&cidade=' + client.cidade
@@ -119,25 +118,22 @@
 
             console.log('endpoint --> ' + endpoint);
 
-            var headers = new Headers();
-            headers.append("Content-Type", "text/html");
-
-            var config = {
-                method: "POST"
-            };
-
-            fetch(endpoint, Object.assign({header: headers}, config))
-                .then(function(response) {
-                    return response;
-                })
-                .then(function(client) {
+            // TODO Mudar para POST (nao consegui fazer funcionar POST com o jquery.ajax)
+            $.ajax({
+                dataType: 'text',
+                contentType: 'application/x-www-form-urlencoded',
+                type: 'GET',
+                url: endpoint,
+                success: function (data) {
                     alert('Cliente cadastrado com sucesso !');
                     window.close();
+                },error: function (jqXHR, exception) {
+                    console.log(jqXHR + '  -  ' + exception);
+                    var msg = 'Ocorreu um erro ao cadastrar o cliente [acao=gravarClientRaiaDrogasil&idCliente='+idCliente+'] ';
+                    console.log(msg);
+                }
+            });
 
-                })
-                .catch(function(error) {
-                    console.log('Ocorreu um erro ao realizar o cadastro do cliente [acao=gravarClientRaiaDrogasil - idCliente='+idCliente+'] ' + error);
-                });
         })
     }
 
@@ -165,9 +161,6 @@ function searchCrm(crm) {
 
 function getMedico(medicoCrm, medicorUf) {
 
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-
     var config = {
         method: "GET"
     };
@@ -175,7 +168,7 @@ function getMedico(medicoCrm, medicorUf) {
     // TODO Parametrizar endpoint terminalconsulta-servicos
     var endpoint = 'http://192.1.1.70/terminalconsulta-servicos/aderenciaTratamento/medico/'+medicoCrm+'/'+medicorUf;
 
-    fetch(endpoint, Object.assign({header: headers}, config))
+    fetch(endpoint, Object.assign(config))
         .then(function(response) {
             return response.json();
         })
@@ -217,7 +210,5 @@ function setDadosCliente(cliente) {
     document.getElementById("cidade").value = cliente.cidade;
     document.getElementById("numero").value = cliente.numero;
     document.getElementById("cep").value = cliente.cep;
-    if (cliente.uf == null || cliente.uf == '') {
-        document.getElementById("uf").value = '';
-    }
+    document.getElementById("uf").value = cliente.uf;
 }
