@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 
+<script type="text/javascript" src="jquery-1.5.1.min.js"></script>
+<script type="text/javascript" src="jquery-ui.min.js"></script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Cadastro Cliente PBMR</title>
 
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -16,11 +19,11 @@
     <header>
 
         <div class="blockLogo">
-            <img src="/img/logoDrogasil.png" alt="Drogasil" class="logoImg">
+            <img src="logoDrogasil.png" alt="Drogasil" class="logoImg">
         </div>
 
         <div class="blockTitle">
-            <h1 class="pageTitle">Cadastro de cliente</h1>
+            <h1 class="pageTitle">Cadastro de cliente PBM - Programa da Indústria</h1>
         </div>
 
     </header>
@@ -28,6 +31,9 @@
     <div class="container">
 
         <form class="form" name="clientForm">
+
+            <input type="hidden" name="" id="sequencia">
+            <input type="hidden" name="" id="isContatos">
 
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
@@ -159,7 +165,8 @@
 
                         <div class="col-md-3">
                             <label class="col-md-3 inputName" for="medicoUf">UF</label>
-                            <select class="col-md-8 input" type="text" id="medicoUf" onchange="searchCrm(this)">
+                            <input type="hidden" name="" id="medicoUf">
+                            <select class="col-md-8 input" type="text" id="medicoUfSelect" onchange="searchCrm(this)">
                                 <option value="0" selected="selected">Selecione</option>
                                 <option value="AC">AC</option>
                                 <option value="AL">AL</option>
@@ -237,7 +244,7 @@
                         </p>
 
                         <div class="col-md-7">
-                            <button class="button primary">Salvar</button>
+                            <button onclick="postClient()" class="button primary">Salvar</button>
                         </div>
 
                         <div class="col-md-5">
@@ -256,6 +263,6 @@
 </body>
 
 <script src="mask.js"></script>
-<script src="/js/consulta.js"></script>
+<script src="consulta.js"></script>
 
 </html>
