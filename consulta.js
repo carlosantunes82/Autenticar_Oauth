@@ -1,4 +1,4 @@
-var urlBaseServer = 'http://10.1.78.166:8082';
+var urlBaseServer = 'http://rdfastpass.herokuapp.com/pbm';
 var regexp = /^[a-zA-Z\u00C0-\u00FF]+(([',. -][a-zA-Z\u00C0-\u00FF ])?[a-zA-Z\u00C0-\u00FF]*)*$/g;
 var regexNum = /^-?\d*\.?\d*$/;
 
