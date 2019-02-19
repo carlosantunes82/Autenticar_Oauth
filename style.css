@@ -19,6 +19,11 @@ header {
   background: #FFFFFF;
 }
 
+@media (max-width: 500px) {
+  .blockTitle {
+    height: 50px !important;
+  }
+}
 .blockTitle {
   display: block;
   letter-spacing: 3px;
@@ -27,7 +32,6 @@ header {
   height: 30px;
   background: #C11D2F;
 }
-
 .blockTitle .pageTitle {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
@@ -41,7 +45,7 @@ header {
   display: inline-block !important;
   font-weight: 100 !important;
   width: 100%;
-  margin: 15px 0 15px 0;
+  margin: 5px 0 0px 0;
 }
 
 .logoImg {
@@ -52,21 +56,24 @@ header {
 
 .container {
   max-width: 950px;
-  max-height: 650px;
   border-radius: 13px;
   background: #fff;
   margin-top: 10px;
+  margin-bottom: 50px;
   padding-bottom: 20px;
-  -webkit-box-shadow: 0 2px 4px 0 rgba(186, 166, 166, 0.25);
-          box-shadow: 0 2px 4px 0 rgba(186, 166, 166, 0.25);
+  box-shadow: 0 2px 4px 0 rgba(186, 166, 166, 0.25);
 }
 
 .form {
-  margin: 15px 0 0 0;
-  padding: 15px 0 0 0;
+  padding: 5px 0 0 0;
 }
-
-.input {
+.form .label {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 12px;
+}
+.form .input {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 12px;
   background: #fff;
@@ -75,15 +82,12 @@ header {
   height: 25px;
   padding: 2px 8px;
   outline: 0;
-  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
-
-.input:hover {
+.form .input:hover {
   border: 1px solid #858585;
 }
-
-.input.error {
+.form .input.error {
   border: 1px solid #C11D2F;
 }
 
@@ -103,7 +107,6 @@ header {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 12px;
   color: #000;
-  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
@@ -117,21 +120,17 @@ header {
   height: 25px;
   width: 100%;
   outline: 0;
-  -webkit-transition: 0.3s;
   transition: 0.3s;
   color: #fff;
 }
-
 .button.primary {
   background: #C11D2F;
 }
-
 .button.ghost {
   color: #C11D2F;
   background: #fff;
   border: 2px solid #C11D2F;
 }
-
 .button.ghost:hover {
   background: #961625;
   color: #C11D2F;
@@ -141,12 +140,51 @@ header {
 .space.right {
   margin-right: 10px;
 }
-
 .space.left {
   margin-left: 10px;
 }
-
 .space.bottom {
   margin-bottom: 10px;
 }
+
+.ddd-width {
+  width: 40px;
+}
+
+.telefone-width {
+  width: 125px;
+}
+
+.data-width {
+  width: 120px;
+}
+
+.input_ajuste {
+  width: 300px;
+}
+
+.pt10 {
+  padding-top: 10px !important;
+}
+
+.pb10 {
+  padding-bottom: 10px !important;
+}
+
+.pt5 {
+  padding-top: 5px !important;
+}
+
+.pb5 {
+  padding-bottom: 5px !important;
+}
+
+.mb5 {
+  margin-bottom: 5px !important;
+}
+
+.mt40 {
+  margin-top: 40px !important;
+}
+
 /*# sourceMappingURL=style.css.map */
