@@ -1,3 +1,4 @@
+// var urlBaseServer = 'http://10.1.78.166:8082/';
 var urlBaseServer = 'http://rdfastpass.herokuapp.com/pbm';
 var regexp = /^[a-zA-Z\u00C0-\u00FF]+(([',. -][a-zA-Z\u00C0-\u00FF ])?[a-zA-Z\u00C0-\u00FF]*)*$/g;
 var regexNum = /^-?\d*\.?\d*$/;
@@ -23,23 +24,23 @@ var regexNum = /^-?\d*\.?\d*$/;
         }
     });
 
-    var dddFixoObj = document.getElementById('dddFixo');
-    dddFixoObj.addEventListener('keyup', function(){
-        var dddFixo = dddFixoObj.value;
-        var filter = regexNum;
-        if(!filter.test(dddFixo)){
-            dddFixoObj.value = dddFixo.substring(0,-1);
-        }
-    });
+    // var dddFixoObj = document.getElementById('dddFixo');
+    // dddFixoObj.addEventListener('keyup', function(){
+    //     var dddFixo = dddFixoObj.value;
+    //     var filter = regexNum;
+    //     if(!filter.test(dddFixo)){
+    //         dddFixoObj.value = dddFixo.substring(0,-1);
+    //     }
+    // });
 
-    var telefoneFixoObj = document.getElementById("telefoneFixo");
-    telefoneFixoObj.addEventListener('keyup', function(){
-        var telefoneFixo = telefoneFixoObj.value;
-        var filter = regexNum;
-        if(!filter.test(telefoneFixo)){
-            telefoneFixoObj.value = telefoneFixo.substring(0,-1);
-        }
-    });
+    // var telefoneFixoObj = document.getElementById("telefoneFixo");
+    // telefoneFixoObj.addEventListener('keyup', function(){
+    //     var telefoneFixo = telefoneFixoObj.value;
+    //     var filter = regexNum;
+    //     if(!filter.test(telefoneFixo)){
+    //         telefoneFixoObj.value = telefoneFixo.substring(0,-1);
+    //     }
+    // });
 
     var dddCelularObj = document.getElementById("dddCelular");
     dddCelularObj.addEventListener('keyup', function(){
@@ -307,35 +308,35 @@ var regexNum = /^-?\d*\.?\d*$/;
             }                
         }
         
-        var dddFixo = document.getElementById("dddFixo");
-        if(!dddFixo || dddFixo.value  == ""){          
-            exibirMsgErro(dddFixo, "DDD.", "DDDTelefoneFixo", "Null", null);         
-        } else {
-            if(!dddFixo.value.match(regexNum)){                
-                exibirMsgErro(dddFixo, null, "DDDTelefoneFixo", "Numerico", null); 
-            } else {
-                if(dddFixo.value.length > 2){
-                    exibirMsgErro(dddFixo, null, "DDDTelefoneFixo", dddFixo.value.length, 2);
-                } else {
-                    exibirBordaPadrao(dddFixo, "DDDTelefoneFixo");
-                }                   
-            }
-        }
+        // var dddFixo = document.getElementById("dddFixo");
+        // if(!dddFixo || dddFixo.value  == ""){          
+        //     exibirMsgErro(dddFixo, "DDD.", "DDDTelefoneFixo", "Null", null);         
+        // } else {
+        //     if(!dddFixo.value.match(regexNum)){                
+        //         exibirMsgErro(dddFixo, null, "DDDTelefoneFixo", "Numerico", null); 
+        //     } else {
+        //         if(dddFixo.value.length > 2){
+        //             exibirMsgErro(dddFixo, null, "DDDTelefoneFixo", dddFixo.value.length, 2);
+        //         } else {
+        //             exibirBordaPadrao(dddFixo, "DDDTelefoneFixo");
+        //         }                   
+        //     }
+        // }
 
-        var telefoneFixo = document.getElementById("telefoneFixo");
-        if(!telefoneFixo || telefoneFixo.value == ""){          
-            exibirMsgErro(telefoneFixo, "Telefone.", "TelefoneFixo", "Null", null);         
-        } else {
-            if(!telefoneFixo.value.match(regexNum)){                
-                exibirMsgErro(telefoneFixo, null, "TelefoneFixo", "Numerico", null); 
-            } else {
-                if(telefoneFixo.value.length > 9){
-                    exibirMsgErro(telefoneFixo, null, "TelefoneFixo", telefoneFixo.value.length, 9);
-                } else {
-                    exibirBordaPadrao(telefoneFixo, "TelefoneFixo");
-                }                     
-            }                
-        }
+        // var telefoneFixo = document.getElementById("telefoneFixo");
+        // if(!telefoneFixo || telefoneFixo.value == ""){          
+        //     exibirMsgErro(telefoneFixo, "Telefone.", "TelefoneFixo", "Null", null);         
+        // } else {
+        //     if(!telefoneFixo.value.match(regexNum)){                
+        //         exibirMsgErro(telefoneFixo, null, "TelefoneFixo", "Numerico", null); 
+        //     } else {
+        //         if(telefoneFixo.value.length > 9){
+        //             exibirMsgErro(telefoneFixo, null, "TelefoneFixo", telefoneFixo.value.length, 9);
+        //         } else {
+        //             exibirBordaPadrao(telefoneFixo, "TelefoneFixo");
+        //         }                     
+        //     }                
+        // }
 
         var dddCelular = document.getElementById("dddCelular");
         if(!dddCelular || dddCelular.value == ""){          
@@ -491,7 +492,7 @@ function searchCrm(uf) {
 function getMedico(medicoCrm, medicorUf) {
 
     // TODO Parametrizar endpoint terminalconsulta-servicos
-    var endpoint = urlBaseServer + '/medico/crm/'+medicoCrm+'/uf/'+medicorUf;
+    var endpoint = urlBaseServer + '/v1/medico/crm/'+medicoCrm+'/uf/'+medicorUf;
 
     $.ajax({
         type: 'GET',
