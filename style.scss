@@ -24,12 +24,6 @@ header {
     background: #FFFFFF;
 }
 
-@media(max-width: 500px){
-    .blockTitle{ 
-        height: 50px !important;
-    }
-}
-
 .blockTitle {
     display: block;
     letter-spacing: 3px;
@@ -132,7 +126,7 @@ header {
     border: 0;
     border-radius: 6px;
     height: 25px;
-    width: 100%;
+    width: 49%;
     outline: 0;
     transition: 0.3s;
     color: $color-default;
@@ -172,7 +166,6 @@ header {
 
 }
 
-
 .ddd-width {
     width: 40px;
 }
@@ -211,4 +204,20 @@ header {
 
 .mt40{
     margin-top: 40px !important;
+}
+
+@media(max-width: 500px){
+    .height50{ 
+        height: 50px;
+    }
+}
+
+@media(max-width: 500px){
+    .mobilePresentFalse{ 
+        display: none;
+    }
+}
+
+.none{
+    display: none;
 }

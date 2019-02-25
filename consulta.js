@@ -1,4 +1,3 @@
-// var urlBaseServer = 'http://10.1.78.166:8082/';
 var urlBaseServer = 'http://rdfastpass.herokuapp.com/pbm';
 var regexp = /^[a-zA-Z\u00C0-\u00FF]+(([',. -][a-zA-Z\u00C0-\u00FF ])?[a-zA-Z\u00C0-\u00FF]*)*$/g;
 var regexNum = /^-?\d*\.?\d*$/;
@@ -225,9 +224,7 @@ var regexNum = /^-?\d*\.?\d*$/;
     }();
 
     function validarFormulario(){
-        var retornoSubmit = true;
-        // var regexp = /^[a-zA-Z\u00C0-\u00FF]+(([',. -][a-zA-Z\u00C0-\u00FF ])?[a-zA-Z\u00C0-\u00FF]*)*$/g;
-        // var regexNum = /^-?\d*\.?\d*$/;
+        var retornoSubmit = true;        
         var regexDate = /^(0?[1-9]|[12][0-9]|3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/;
         var regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -298,12 +295,15 @@ var regexNum = /^-?\d*\.?\d*$/;
         }
 
         var dataNascimento = document.getElementById("dataNascimento");
-        if(!dataNascimento || dataNascimento.value == ""){          
+        if(!dataNascimento || dataNascimento.value == ""){         
+            jQuery("#pularLinhaDatNasc").removeClass("none");      
             exibirMsgErro(dataNascimento, "Data de Nascimento.", "DataNascimento", "Null", null);         
         } else {
-            if(!dataNascimento.value.match(regexDate)){                
+            if(!dataNascimento.value.match(regexDate)){    
+                jQuery("#pularLinhaDatNasc").removeClass("none");            
                 exibirMsgErro(dataNascimento, null, "DataNascimento", "DataNascimento", null); 
             } else {
+                jQuery("#pularLinhaDatNasc").addClass("none");
                 exibirBordaPadrao(dataNascimento, "DataNascimento");
             }                
         }
@@ -415,33 +415,42 @@ var regexNum = /^-?\d*\.?\d*$/;
 
         var numero = document.getElementById("numero");
         if(!numero || numero.value == ""){          
+            jQuery("#pularLinhaNumero").removeClass("none");
             exibirMsgErro(numero, "Numero.", "Numero", "Null", null);         
         } else {
-            if(!numero.value.match(regexNum)){                
+            if(!numero.value.match(regexNum)){ 
+                jQuery("#pularLinhaNumero").removeClass("none");               
                 exibirMsgErro(numero, null, "Numero", "Numerico", null); 
             } else {
+                jQuery("#pularLinhaNumero").addClass("none"); 
                 exibirBordaPadrao(numero, "Numero");
             }                
         }
 
         var cep = document.getElementById("cep");
-        if(!cep || cep.value == ""){          
+        if(!cep || cep.value == ""){ 
+            jQuery("#pularLinhaCep").removeClass("none");         
             exibirMsgErro(cep, "Cep.", "Cep", "Null", null);         
         } else {
-            if(!cep.value.match(regexNum)){                
+            if(!cep.value.match(regexNum)){       
+                jQuery("#pularLinhaCep").removeClass("none");         
                 exibirMsgErro(cep, null, "Cep", "Numerico", 8); 
             } else {
+                jQuery("#pularLinhaCep").addClass("none");
                 exibirBordaPadrao(cep, "Cep");
             }                
         }
 
         var uf = document.getElementById("uf");
         if(!uf ||  uf.value == ""){          
+            jQuery("#pularLinhaUF").removeClass("none");  
             exibirMsgErro(uf, "UF.", "Uf", "Null", null);         
         } else {
-            if(!uf.value.match(regexp)){                
+            if(!uf.value.match(regexp)){  
+                jQuery("#pularLinhaUF").removeClass("none");                
                 exibirMsgErro(uf, null, "Uf", "Alfanumerico", null); 
             } else {
+                jQuery("#pularLinhaUF").addClass("none");  
                 exibirBordaPadrao(uf, "Uf");
             }
         }

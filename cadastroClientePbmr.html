@@ -7,7 +7,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=11" />
+    <!-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> -->
     <title>Cadastro Cliente PBMR</title>
 
     <link rel="stylesheet" href="bootstrap.min.css">
@@ -22,8 +23,8 @@
             <img src="logoDrogasil.png" alt="Drogasil" class="logoImg">
         </div>
 
-        <div class="blockTitle">
-            <h1 class="pageTitle">Cadastro de cliente PBM - Programa da Indústria</h1>
+        <div class="blockTitle height50">
+            <h1 class="pageTitle">Cadastro de cliente PBM <span class="mobilePresentFalse">-</span> Programa da Indústria</h1>
         </div>
 
     </header>
@@ -56,6 +57,7 @@
                                 <input class="col-md-4 input data-width" type="text" id="dataNascimento">                              
                             </div>
                             <div class="">
+                                    <br id="pularLinhaDatNasc" class="none"/>
                                 <p id="errorMessageDataNascimento" class="errorMessage"></p>
                             </div>
                         </div>
@@ -134,18 +136,21 @@
                         <div class="row space bottom">
                             <label class="col-md-4 inputName" for="numero">Numero*</label>
                             <input class="col-md-4 input" type="text" id="numero">
+                            <br id="pularLinhaNumero" class="none"/>
                             <p id="errorMessageNumero" class="errorMessage"></p>
                         </div>
 
                         <div class="row space bottom">
                             <label class="col-md-4 inputName" for="cep">CEP*</label>
                             <input class="col-md-4 input" type="text" id="cep">
+                            <br id="pularLinhaCep" class="none"/>
                             <p id="errorMessageCep" class="errorMessage"></p>
                         </div>
 
                         <div class="row space bottom">
                             <label class="col-md-4 inputName" for="uf">UF*</label>
                             <input class="col-md-2   input" type="text" id="uf">
+                            <br id="pularLinhaUF" class="none"/>
                             <p id="errorMessageUf" class="errorMessage"></p>
                         </div>
 
@@ -249,13 +254,13 @@
                                 <p id="errorMessage" class="errorMessage"></p>
                         </p>
 
-                        <div class="col-md-7">
+                        <!-- <div class="col-md-7"> -->
                             <button onclick="postClient()" class="button primary">Salvar</button>
-                        </div>
+                        <!-- </div> -->
 
-                        <div class="col-md-5">
+                        <!-- <div class="col-md-5"> -->
                             <button class="button ghost">Sair</button>
-                        </div>
+                        <!-- </div> -->
 
                     </div>
 
