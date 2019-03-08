@@ -1,6 +1,10 @@
-var urlBaseServer = 'http://rdfastpass.herokuapp.com/pbm';
+// var urlBaseServer = 'http://rdfastpass.herokuapp.com/pbm';
+var urlBaseServer = 'http://10.1.78.166:8080';
 var regexp = /^[a-zA-Z\u00C0-\u00FF]+(([',. -][a-zA-Z\u00C0-\u00FF ])?[a-zA-Z\u00C0-\u00FF]*)*$/g;
 var regexNum = /^-?\d*\.?\d*$/;
+
+var urlBaseServerToken = 'http://10.1.78.166:8090';
+var accessToken = ''; 
 
 (function () {
 
@@ -22,24 +26,6 @@ var regexNum = /^-?\d*\.?\d*$/;
             cpfObj.value = cpf.substring(0,-1);
         }
     });
-
-    // var dddFixoObj = document.getElementById('dddFixo');
-    // dddFixoObj.addEventListener('keyup', function(){
-    //     var dddFixo = dddFixoObj.value;
-    //     var filter = regexNum;
-    //     if(!filter.test(dddFixo)){
-    //         dddFixoObj.value = dddFixo.substring(0,-1);
-    //     }
-    // });
-
-    // var telefoneFixoObj = document.getElementById("telefoneFixo");
-    // telefoneFixoObj.addEventListener('keyup', function(){
-    //     var telefoneFixo = telefoneFixoObj.value;
-    //     var filter = regexNum;
-    //     if(!filter.test(telefoneFixo)){
-    //         telefoneFixoObj.value = telefoneFixo.substring(0,-1);
-    //     }
-    // });
 
     var dddCelularObj = document.getElementById("dddCelular");
     dddCelularObj.addEventListener('keyup', function(){
@@ -74,7 +60,39 @@ var regexNum = /^-?\d*\.?\d*$/;
         }
     }
 
+    autenticar = function(){
+        var endpointToken = urlBaseServerToken + '/oauth/token'; 
+
+        var data = {
+            grant_type: 'password',
+            username: 'RaiaDrogasil',
+            password: 'UmFpYWRyb2dhc2lsMjAxOQ=='
+        }
+
+         $.ajax({
+            type: 'POST',
+            url: endpointToken, 
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", 'Basic cmQ6YzJWamNtVjBYM0poYVdGZlpISnZaMkZ6YVd4Zk1qQXhPUT09');
+            },           
+            dataType: 'json',
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",                     
+            data: data,
+            async: false,
+            cache: false,                   
+            success: function (data) {
+                accessToken = data;
+            },error: function (jqXHR, exception) {
+                console.log(jqXHR + '  -  ' + exception);
+                var msg = 'Ocorreu um erro ao gerar o token de acesso.';
+                console.log(msg);
+            }
+        });
+    }
+
     var getCliente = function () {
+        
+        autenticar();
 
         idCliente = getURLParameter('idCliente');
 
@@ -86,6 +104,9 @@ var regexNum = /^-?\d*\.?\d*$/;
             cache: false,
             timeout: 5000,
             dataType: "json",
+            beforeSend: function(request) {
+                request.setRequestHeader("Authorization", 'Bearer ' + accessToken.access_token);
+            },
             url: endpoint,
             success: function (data) {
                 retorno = data;
@@ -191,6 +212,8 @@ var regexNum = /^-?\d*\.?\d*$/;
                     nrSequenciaEndereco: client.sequencia
                 }
 
+                autenticar();
+
                 $.ajax({
                     type: 'POST',
                     url: endpoint,
@@ -198,7 +221,10 @@ var regexNum = /^-?\d*\.?\d*$/;
                     contentType: "application/json; charset=utf-8",                     
                     data: JSON.stringify(data),
                     async: false,
-                    cache: false,                   
+                    cache: false,   
+                    beforeSend: function(request) {
+                        request.setRequestHeader("Authorization", 'Bearer ' + accessToken.access_token);
+                    },                
                     success: function (data) {
                         alert('Cliente cadastrado com sucesso !');
                         window.close();
@@ -308,36 +334,6 @@ var regexNum = /^-?\d*\.?\d*$/;
             }                
         }
         
-        // var dddFixo = document.getElementById("dddFixo");
-        // if(!dddFixo || dddFixo.value  == ""){          
-        //     exibirMsgErro(dddFixo, "DDD.", "DDDTelefoneFixo", "Null", null);         
-        // } else {
-        //     if(!dddFixo.value.match(regexNum)){                
-        //         exibirMsgErro(dddFixo, null, "DDDTelefoneFixo", "Numerico", null); 
-        //     } else {
-        //         if(dddFixo.value.length > 2){
-        //             exibirMsgErro(dddFixo, null, "DDDTelefoneFixo", dddFixo.value.length, 2);
-        //         } else {
-        //             exibirBordaPadrao(dddFixo, "DDDTelefoneFixo");
-        //         }                   
-        //     }
-        // }
-
-        // var telefoneFixo = document.getElementById("telefoneFixo");
-        // if(!telefoneFixo || telefoneFixo.value == ""){          
-        //     exibirMsgErro(telefoneFixo, "Telefone.", "TelefoneFixo", "Null", null);         
-        // } else {
-        //     if(!telefoneFixo.value.match(regexNum)){                
-        //         exibirMsgErro(telefoneFixo, null, "TelefoneFixo", "Numerico", null); 
-        //     } else {
-        //         if(telefoneFixo.value.length > 9){
-        //             exibirMsgErro(telefoneFixo, null, "TelefoneFixo", telefoneFixo.value.length, 9);
-        //         } else {
-        //             exibirBordaPadrao(telefoneFixo, "TelefoneFixo");
-        //         }                     
-        //     }                
-        // }
-
         var dddCelular = document.getElementById("dddCelular");
         if(!dddCelular || dddCelular.value == ""){          
             exibirMsgErro(dddCelular, "DDD/Celular.", "DDDTelefoneCelular", "Null", null);         
@@ -500,7 +496,8 @@ function searchCrm(uf) {
 
 function getMedico(medicoCrm, medicorUf) {
 
-    // TODO Parametrizar endpoint terminalconsulta-servicos
+    autenticar();
+    
     var endpoint = urlBaseServer + '/v1/medico/crm/'+medicoCrm+'/uf/'+medicorUf;
 
     $.ajax({
@@ -510,6 +507,9 @@ function getMedico(medicoCrm, medicorUf) {
         timeout: 5000,
         dataType: "json",
         url: endpoint,
+        beforeSend: function(request) {
+            request.setRequestHeader("Authorization", 'Bearer ' + accessToken.access_token);
+        },
         success: function (data) {
             retorno = data;
             console.log(retorno);
